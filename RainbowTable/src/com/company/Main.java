@@ -6,37 +6,59 @@ import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
+
 public class Main {
 
     public static void main(String[] args) {
+        Hashtable<String, String> numbers
+                = new Hashtable<String, String>();
+
+
+        String StartingPlaintext="123";
+        String temp ;
+        for (int i=0; i<=165668499; i++) {
+
+           temp= UnsaltedHash(StartingPlaintext);
+            numbers.put(temp,StartingPlaintext);
+           StartingPlaintext= reduceHash(temp);
 
 
 
-            UnsaltedHash("123");
+
+
+
+
+        }
+
+
+
+        System.out.println("TEST :");
+        System.out.println(numbers.get("202cb962ac59075b964b07152d234b70"));
+
 
     }
 
 
-    static void UnsaltedHash(String plaintext){
+    static String UnsaltedHash(String plaintext){
 
 
         String sha256hex = Hashing.md5()
                 .hashString(plaintext, StandardCharsets.UTF_8)
                 .toString();
-        System.out.println(plaintext);
+
         System.out.println(sha256hex);
+        System.out.println(plaintext);
         System.out.println("\n");
 
         //SaltedHash(sha256hex,"asfd");
-        reduceHash(sha256hex);
-
+        //reduceHash(sha256hex);
+                return sha256hex;
     }
 
 
-    static void reduceHash(String hash){
+    static String reduceHash(String hash){
 
-        Hashtable<String, String> numbers
-                = new Hashtable<String, String>();
 
 
         String theDigits = CharMatcher.DIGIT.retainFrom(hash); // 123
@@ -44,12 +66,12 @@ public class Main {
 
 
 
-        UnsaltedHash(reducedHash);
+      //  UnsaltedHash(reducedHash);
 
 
 
 
-
+            return reducedHash;
 
 
     }
