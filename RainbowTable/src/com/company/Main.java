@@ -2,42 +2,77 @@ package com.company;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.hash.Hashing;
-
+import java.util.Random;
+import java.beans.XMLEncoder;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
+
+
 
 public class Main {
 
     public static void main(String[] args) {
-        Hashtable<String, String> numbers
-                = new Hashtable<String, String>();
+
+for (;;) {
+    try {
+
+        FileOutputStream fos = new FileOutputStream("tmp.xml");
+        XMLEncoder e = new XMLEncoder(fos);
+        e.writeObject(TableGenerator());
+        e.close();
 
 
-        String StartingPlaintext="123";
-        String temp ;
-        for (int i=0; i<=165668499; i++) {
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+}
 
-           temp= UnsaltedHash(StartingPlaintext);
-            numbers.put(temp,StartingPlaintext);
-           StartingPlaintext= reduceHash(temp);
-
-
-
-
-
+//
+//            }
 
 
         }
 
 
+        static String[] TableGenerator() throws FileNotFoundException {
 
-        System.out.println("TEST :");
-        System.out.println(numbers.get("202cb962ac59075b964b07152d234b70"));
+            Random rand = new Random();
 
 
-    }
+            Hashtable<String, String> numbers
+                    = new Hashtable<String, String>();
+
+
+            String StartingPlaintext= String.valueOf(rand.nextInt(900) + 001);
+            String temp="0";
+            int counter=0;
+            String start="140";
+            String end;
+            String[] data = new String[10];
+            String startEnd[]= new String[2];
+            startEnd[0]=StartingPlaintext;
+            for (int i=0; i<1000; i++) {
+
+                temp = UnsaltedHash(StartingPlaintext);
+                numbers.put(temp, StartingPlaintext);
+                StartingPlaintext = reduceHash(temp);
+
+
+
+
+
+
+            }
+
+            startEnd[1]=temp;
+            return startEnd;
+
+        }
+
+
 
 
     static String UnsaltedHash(String plaintext){
