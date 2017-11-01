@@ -6,17 +6,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HashCracker {
+ class HashCracker {
 
-    private static final String[] NO_FILES = {};
     private String results[] = new String[2];
-    private Map<String, String> map = new HashMap<String, String>();
+    private Map<String, String> map = new HashMap<>();
 
 
-    public void readRainbowTable() throws IOException {
+     void readRainbowTable() throws IOException {
 
-        BufferedReader in = new BufferedReader(new FileReader("testing.txt"));
-        String line = "";
+        BufferedReader in = new BufferedReader(new FileReader("testing2.txt"));
+        String line;
         while ((line = in.readLine()) != null) {
             String parts[] = line.split("  ");
             map.put(parts[1], parts[0]);
@@ -25,20 +24,18 @@ public class HashCracker {
         System.out.println();
     }
 
+     String[] searchForHash(String givenHashFromUser) {
 
-    public String[] SearchForHash(String GiveMeAhashBro) {
 
+        if (map.containsKey(givenHashFromUser)) {
 
-        if (map.containsKey(GiveMeAhashBro)) {
-            String plaintextValue = map.get(GiveMeAhashBro);
+            String plaintextValue = map.get(givenHashFromUser);
             results[0] = plaintextValue;
-            results[1] = GiveMeAhashBro;
-            System.out.println("HASH FOUND IN END OF CHAIN \nSTARTING PLAINTEXT OF CHAIN: " + plaintextValue);
-            System.out.println("GENERATING TABLE.......");
+            results[1] = givenHashFromUser;
+
             return results;
         } else {
             return null;
-
         }
     }
 }

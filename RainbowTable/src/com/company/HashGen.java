@@ -1,5 +1,4 @@
 package com.company;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.hash.Hashing;
 import java.io.BufferedWriter;
@@ -15,80 +14,75 @@ import java.security.SecureRandom;
 import java.util.Hashtable;
 import java.util.Random;
 
-public class HashGen {
+ class HashGen {
 
 
-    Hashtable<String, String> numbers
-            = new Hashtable<String, String>();
+    private Hashtable<String, String> numbers
+            = new Hashtable<>();
 
-    Random rand = new SecureRandom();
+    private Random rand = new SecureRandom();
 
-    String[] TableGenerator() throws FileNotFoundException {
+    String[] tableGenerator() throws FileNotFoundException {
 
-        int number = rand.nextInt(999);
-        String StartingPlaintext = String.valueOf(number);
+        int number = rand.nextInt(9999);
+        String startingPlaintext = String.valueOf(number);
         String temp = "0";
         String startEnd[] = new String[2];
-        startEnd[0] = StartingPlaintext;
+        startEnd[0] = startingPlaintext;
         for (int i = 0; i < 10000; i++) {
 
-            temp = UnsaltedHash(StartingPlaintext);
-            numbers.put(temp, StartingPlaintext);
-            StartingPlaintext = reduceHash(temp);
+            temp = hashGenerator(startingPlaintext);
+            numbers.put(temp, startingPlaintext);
+            startingPlaintext = reduceHash(temp);
 
         }
         startEnd[1] = temp;
         return startEnd;
     }
 
-    String[] TableGenerator(String StartingPlaintext, String HashtoCheck) throws FileNotFoundException {
+    String[] tableGenerator(String startingPlaintext, String hashToCheck) throws FileNotFoundException {
 
         String temp = "0";
         String startEnd[] = new String[3];
-        startEnd[0] = StartingPlaintext;
+        startEnd[0] = startingPlaintext;
         for (int i = 0; i < 10000; i++) {
 
-            temp = UnsaltedHash(StartingPlaintext);
-            numbers.put(temp, StartingPlaintext);
-            StartingPlaintext = reduceHash(temp);
-
+            temp = hashGenerator(startingPlaintext);
+            numbers.put(temp, startingPlaintext);
+            startingPlaintext = reduceHash(temp);
 
         }
-        System.out.println("HASH VALUE: " + HashtoCheck + " .............. PLAINTEXT: " + numbers.get(HashtoCheck));
-        System.out.println();
-       // startEnd[2] = numbers.get(HashtoCheck.toString());
+        startEnd[2] = numbers.get(hashToCheck);
         startEnd[1] = temp;
         return startEnd;
-
     }
 
     String reduceHash(String hash) {
 
-        Random rand = new Random();
-        int number2 = rand.nextInt(8);
+        int number2 = rand.nextInt(6);
 
-        String theDigits = CharMatcher.DIGIT.retainFrom(hash); // 123
+        String theDigits = CharMatcher.DIGIT.retainFrom(hash);
         String reducedHash = theDigits.substring(number2);
-        String reducedHash2 = reducedHash.substring(0, 3);
-        return reducedHash2;
+        if(reducedHash.length()>=4) {
+            return reducedHash.substring(0, 4);
+        }
+       else
+
+          return   reducedHash.substring(0, 3);
 
     }
 
-    String UnsaltedHash(String plaintext) {
+    String hashGenerator(String plaintext) {
 
-
-        String md5hex = Hashing.md5()
+        return Hashing.md5()
                 .hashString(plaintext, StandardCharsets.UTF_8)
                 .toString();
-
-        return md5hex;
     }
 
+    void writeRainbowTables() throws FileNotFoundException {
 
-    void WriteRainbowTables() throws FileNotFoundException {
-
-        String data[] = TableGenerator();
-        Path path = Paths.get("testing.txt");
+        String data[] = tableGenerator();
+        Path path = Paths.get("testing2.txt");
         Charset charset = Charset.forName("UTF-8");
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {

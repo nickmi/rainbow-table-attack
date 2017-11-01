@@ -4,45 +4,72 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class CrackTrial {
+ class CrackTrial {
 
-    HashCracker hscracker = new HashCracker();
-    HashGen hsgen = new HashGen();
-    String HashToCrack;
+    HashCracker HsCracker = new HashCracker();
+    HashGen HsGen = new HashGen();
+    String hashToCrack;
+    private int collisionsCounter=0;
 
-    void check() throws IOException {
+    void check()  {
 
-        hscracker.readRainbowTable();
+        try {
+            HsCracker.readRainbowTable();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Give me a MD5 hash to crack....");
         Scanner scanner = new Scanner(System.in);
-        HashToCrack = scanner.nextLine();
-        String[] results = hscracker.SearchForHash(HashToCrack.toLowerCase());
+        hashToCrack = scanner.nextLine();
+        String[] results = HsCracker.searchForHash(hashToCrack.toLowerCase());
 
         if (results == null) {
             System.out.println("HASH NOT FOUND IN END OF AVAILABLE CHAINS");
             System.out.println("STARTED REVERSE TRAVERSING OF AVAILABLE RAINBOW-TABLES");
             System.out.println("........................................................");
-            ChainLookUp(HashToCrack);
+            try {
+                chainLookUp(hashToCrack);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         } else {
 
-            hsgen.TableGenerator(results[0], results[1]);
+            try {
+                HsGen.tableGenerator(results[0], results[1]);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
 
-    void ChainLookUp(String NewGenaratedHash) throws FileNotFoundException {
-        String tempHash = HashToCrack;
-        String[] results2 = new String[0];
-        for (; ; ) {
-            String reducedHash = hsgen.reduceHash(NewGenaratedHash);
-            NewGenaratedHash = hsgen.UnsaltedHash(reducedHash);
-            results2 = hscracker.SearchForHash(NewGenaratedHash.toLowerCase());
-            if (results2 != null) {
-                System.out.println(hsgen.TableGenerator(results2[0], tempHash.toLowerCase()));
-                break;
+    void chainLookUp(String newGenaratedHash) throws FileNotFoundException {
+        String tempHash = hashToCrack;
+        String[] resultsOfChainSearch;
+        String[] finalResults;
+
+        for (;;) {
+            String reducedHash = HsGen.reduceHash(newGenaratedHash);
+            newGenaratedHash = HsGen.hashGenerator(reducedHash);
+            resultsOfChainSearch = HsCracker.searchForHash(newGenaratedHash.toLowerCase());
+            if (resultsOfChainSearch != null) {
+                finalResults=HsGen.tableGenerator(resultsOfChainSearch[0], tempHash.toLowerCase());
+                if (finalResults[2]!=null && collisionsCounter<1){
+
+                 System.out.println("Hash found in chain: \nStart of chain: "+resultsOfChainSearch[0]+"\nEnd of chain "+resultsOfChainSearch[1]+"\n"+"Original Hash: "+tempHash+".....Plaintext:  "+finalResults[2]+"\n");
+                 ++collisionsCounter;
             }
-            ChainLookUp(NewGenaratedHash);
+
+            }
+
+            if (collisionsCounter>=1) {
+                break;
+           }
+            else {
+
+                chainLookUp(newGenaratedHash);
+            }
         }
 
     }

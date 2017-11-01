@@ -21,12 +21,16 @@ public class Main {
 HashGen hsgen= new HashGen();
 CrackTrial crktrial = new CrackTrial();
 
+
+        crktrial.check();
+
+
+//
 //for(int i=0;i<1000;i++) {
 //    hsgen.WriteRainbowTables();
 //}
-
-crktrial.check();
-
+//
+//
 
 
 
