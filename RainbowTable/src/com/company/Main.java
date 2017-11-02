@@ -15,31 +15,50 @@ import java.util.Scanner;
 public class Main {
 
 
-
     public static void main(String[] args) throws IOException {
 
-    HashGen HsGen= new HashGen();
-    CrackTrial CrTrial = new CrackTrial();
-    HashCracker HsCracker = new HashCracker();
+        HashGen HsGen = new HashGen();
+        CrackTrial CrTrial = new CrackTrial();
+        HashCracker HsCracker = new HashCracker();
+        Scanner scanner = new Scanner(System.in);
 
-        CrTrial.check();
+        boolean flag = true;
+        while (flag == true) {
+            System.out.println("Press 1 to crack md5 hashes\nPress 2 to generate rainbow tables\nPress 3 to exit");
+            int userChoice = scanner.nextInt();
+
+            switch (userChoice) {
+
+                case 1: {
+
+                    CrTrial.check();
+                    break;
+                }
+
+                case 2: {
+
+                    for (int i = 0; i < 1000; i++) {
+                        HsGen.writeRainbowTables();
+                    }
+                }
+                break;
+
+                case 3: {
+
+                    flag = false;
+                    break;
+                }
+
+                default:
+
+                    break;
 
 
-       // System.out.println(HsCracker.readHashesToCrack().get(1));
+            }
+        }
 
-//
-//for(int i=0;i<1000;i++) {
- //   HsGen.writeRainbowTables();
-//}
-//
-//
-
-
-
-
-
-
-}}
+    }
+}
 
 
 

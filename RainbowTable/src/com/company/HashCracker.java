@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
- class HashCracker {
+class HashCracker {
 
     private String results[] = new String[2];
     private Map<String, String> map = new HashMap<>();
 
 
-     void readRainbowTable() throws IOException {
+    void readRainbowTable() throws IOException {
 
         BufferedReader in = new BufferedReader(new FileReader("testing2.txt"));
         String line;
@@ -26,22 +26,22 @@ import java.util.Map;
     }
 
 
-     ArrayList readHashesToCrack() throws IOException {
+    ArrayList readHashesToCrack() throws IOException {
 
-         ArrayList<String> hashesFromFile= new ArrayList<>();
+        ArrayList<String> hashesFromFile = new ArrayList<>();
 
-         BufferedReader in = new BufferedReader(new FileReader("crackMe.txt"));
-         String line;
-         while ((line = in.readLine()) != null) {
-             String parts = line;
-             hashesFromFile.add(parts);
-         }
-         in.close();
-         return hashesFromFile;
-     }
+        BufferedReader in = new BufferedReader(new FileReader("crackMe.txt"));
+        String line;
+        while ((line = in.readLine()) != null) {
+            String parts = line;
+            hashesFromFile.add(parts);
+        }
+        in.close();
+        return hashesFromFile;
+    }
 
 
-     String[] searchForHash(String givenHashFromUser) {
+    String[] searchForHash(String givenHashFromUser) {
 
 
         if (map.containsKey(givenHashFromUser)) {

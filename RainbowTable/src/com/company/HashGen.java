@@ -1,6 +1,8 @@
 package com.company;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.hash.Hashing;
+
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,13 +15,13 @@ import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.Hashtable;
 
- class HashGen {
+class HashGen {
 
 
     private Hashtable<String, String> numbers
             = new Hashtable<>();
 
-    private SecureRandom  rand = new SecureRandom();
+    private SecureRandom rand = new SecureRandom();
 
     String[] tableGenerator() throws FileNotFoundException {
 
@@ -62,12 +64,11 @@ import java.util.Hashtable;
 
         String theDigits = CharMatcher.DIGIT.retainFrom(hash);
         String reducedHash = theDigits.substring(number2);
-        if(reducedHash.length()>=4) {
+        if (reducedHash.length() >= 4) {
             return reducedHash.substring(0, 4);
-        }
-       else
+        } else
 
-          return   reducedHash.substring(0, 3);
+            return reducedHash.substring(0, 3);
 
     }
 
