@@ -18,16 +18,18 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-HashGen hsgen= new HashGen();
-CrackTrial crktrial = new CrackTrial();
+    HashGen HsGen= new HashGen();
+    CrackTrial CrTrial = new CrackTrial();
+    HashCracker HsCracker = new HashCracker();
+
+        CrTrial.check();
 
 
-        crktrial.check();
-
+       // System.out.println(HsCracker.readHashesToCrack().get(1));
 
 //
 //for(int i=0;i<1000;i++) {
-//    hsgen.WriteRainbowTables();
+ //   HsGen.writeRainbowTables();
 //}
 //
 //

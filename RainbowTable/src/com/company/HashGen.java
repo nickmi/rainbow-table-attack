@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.Hashtable;
-import java.util.Random;
 
  class HashGen {
 
@@ -20,7 +19,7 @@ import java.util.Random;
     private Hashtable<String, String> numbers
             = new Hashtable<>();
 
-    private Random rand = new SecureRandom();
+    private SecureRandom  rand = new SecureRandom();
 
     String[] tableGenerator() throws FileNotFoundException {
 

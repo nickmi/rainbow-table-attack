@@ -2,78 +2,128 @@ package com.company;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
  class CrackTrial {
 
-    HashCracker HsCracker = new HashCracker();
-    HashGen HsGen = new HashGen();
-    String hashToCrack;
-    private int collisionsCounter=0;
+     HashCracker HsCracker = new HashCracker();
+     HashGen HsGen = new HashGen();
+     private String hashToCrack;
+     private ArrayList<String> hashesFromFile;
 
-    void check()  {
+     {
+         hashesFromFile = new ArrayList<>();
+     }
 
-        try {
-            HsCracker.readRainbowTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Give me a MD5 hash to crack....");
-        Scanner scanner = new Scanner(System.in);
-        hashToCrack = scanner.nextLine();
-        String[] results = HsCracker.searchForHash(hashToCrack.toLowerCase());
+     private int collisionsCounter = 0;
+     private boolean successFlag = false;
 
-        if (results == null) {
-            System.out.println("HASH NOT FOUND IN END OF AVAILABLE CHAINS");
-            System.out.println("STARTED REVERSE TRAVERSING OF AVAILABLE RAINBOW-TABLES");
-            System.out.println("........................................................");
-            try {
-                chainLookUp(hashToCrack);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+     void check() {
 
-        } else {
+         try {
+             HsCracker.readRainbowTable();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+         System.out.println("Enter 1 to crack one hash value\nEnter 2 to crack multiple hash values from file");
 
-            try {
-                HsGen.tableGenerator(results[0], results[1]);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+         Scanner scanner = new Scanner(System.in);
+         int userChoice = scanner.nextInt();
 
 
-    void chainLookUp(String newGenaratedHash) throws FileNotFoundException {
-        String tempHash = hashToCrack;
-        String[] resultsOfChainSearch;
-        String[] finalResults;
+         switch (userChoice) {
 
-        for (;;) {
-            String reducedHash = HsGen.reduceHash(newGenaratedHash);
-            newGenaratedHash = HsGen.hashGenerator(reducedHash);
-            resultsOfChainSearch = HsCracker.searchForHash(newGenaratedHash.toLowerCase());
-            if (resultsOfChainSearch != null) {
-                finalResults=HsGen.tableGenerator(resultsOfChainSearch[0], tempHash.toLowerCase());
-                if (finalResults[2]!=null && collisionsCounter<1){
+             case 1:
+                 String[]results;
+                 System.out.println("Give me a MD5 hash to crack....");
+                 Scanner scanner2 = new Scanner(System.in);
+                 hashToCrack = scanner2.nextLine();
+                 results = HsCracker.searchForHash(hashToCrack.toLowerCase());
+                 checkMultipleHashes(results);
+                 break;
 
-                 System.out.println("Hash found in chain: \nStart of chain: "+resultsOfChainSearch[0]+"\nEnd of chain "+resultsOfChainSearch[1]+"\n"+"Original Hash: "+tempHash+".....Plaintext:  "+finalResults[2]+"\n");
-                 ++collisionsCounter;
-            }
 
-            }
+             case 2:
+                 System.out.println("Loading results from crackMe.txt file");
+                 try {
+                     hashesFromFile = HsCracker.readHashesToCrack();
 
-            if (collisionsCounter>=1) {
-                break;
-           }
-            else {
+                     for (int j = 0; j < hashesFromFile.size(); j++) {
+                         hashToCrack = hashesFromFile.get(j);
+                         results = HsCracker.searchForHash(hashToCrack.toLowerCase());
+                         checkMultipleHashes(results);
+                         if (collisionsCounter!=0){
 
-                chainLookUp(newGenaratedHash);
-            }
-        }
+                             collisionsCounter=0;
+                         }
 
-    }
-}
+                     }
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                 }
+                 break;
+
+             default:
+
+                 break;
+
+
+         }}
+
+
+     void checkMultipleHashes(String[] results) {
+
+         if (results == null) {
+             System.out.println("HASH NOT FOUND IN END OF AVAILABLE CHAINS");
+             System.out.println("STARTED REVERSE TRAVERSING OF AVAILABLE RAINBOW-TABLES");
+             System.out.println("........................................................");
+             try {
+                 chainLookUp(hashToCrack);
+             } catch (FileNotFoundException e) {
+                 e.printStackTrace();
+             }
+
+         } else {
+
+             try {
+                 HsGen.tableGenerator(results[0], results[1]);
+             } catch (FileNotFoundException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
+
+
+     void chainLookUp(String newGenaratedHash) throws FileNotFoundException {
+         String tempHash = hashToCrack;
+         String[] resultsOfChainSearch;
+         String[] finalResults;
+
+         for (; ; ) {
+             String reducedHash = HsGen.reduceHash(newGenaratedHash);
+             newGenaratedHash = HsGen.hashGenerator(reducedHash);
+             resultsOfChainSearch = HsCracker.searchForHash(newGenaratedHash.toLowerCase());
+             if (resultsOfChainSearch != null) {
+                 finalResults = HsGen.tableGenerator(resultsOfChainSearch[0], tempHash.toLowerCase());
+                 if (finalResults[2] != null && collisionsCounter < 1) {
+
+                     System.out.println("Hash found in chain: \nStart of chain: " + resultsOfChainSearch[0] + "\nEnd of chain " + resultsOfChainSearch[1] + "\n" + "Original Hash: " + tempHash + ".....Plaintext:  " + finalResults[2] + "\n");
+                     ++collisionsCounter;
+                     successFlag = true;
+                 }
+
+             }
+
+             if (collisionsCounter >= 1) {
+                 break;
+             } else {
+
+                 chainLookUp(newGenaratedHash);
+             }
+         }
+     }
+ }
 
 
 
