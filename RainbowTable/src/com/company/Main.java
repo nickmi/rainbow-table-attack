@@ -1,14 +1,8 @@
 package com.company;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Scanner;
 
 
@@ -17,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        HashGen HsGen = new HashGen();
+       // HashGen HsGen = new HashGen();
         CrackTrial CrTrial = new CrackTrial();
         HashCracker HsCracker = new HashCracker();
         Scanner scanner = new Scanner(System.in);
@@ -36,10 +30,16 @@ public class Main {
                 }
 
                 case 2: {
-
+                    Instant b = Instant.now();
                     for (int i = 0; i < 1000; i++) {
-                        HsGen.writeRainbowTables();
+                        HashGen HsGen = new HashGen();
+                       HsGen.start();
+                        //HsGen.writeRainbowTables();
                     }
+                    Instant e = Instant.now();
+                    Duration timeElapsed = Duration.between(b, e);
+                    System.out.println("elapsed time ( Seconds ):..."
+                            +(timeElapsed.toMillis()));
                 }
                 break;
 

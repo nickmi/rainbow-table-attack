@@ -88,7 +88,9 @@ class CrackTrial {
         } else {
 
             try {
-                HsGen.tableGenerator(results[0], results[1]);
+               System.out.println(HsGen.tableGenerator(results[0], results[1])[2]);
+
+               // System.out.println(realResults[0] + realResults[1]);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

@@ -15,13 +15,28 @@ import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.Hashtable;
 
-class HashGen {
+public class HashGen extends Thread{
 
 
     private Hashtable<String, String> numbers
             = new Hashtable<>();
 
     private SecureRandom rand = new SecureRandom();
+
+
+   public void run(){
+
+       try {
+           writeRainbowTables();
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       }
+
+
+   }
+
+
+
 
     String[] tableGenerator() throws FileNotFoundException {
 
@@ -33,7 +48,7 @@ class HashGen {
         for (int i = 0; i < 10000; i++) {
 
             temp = hashGenerator(startingPlaintext);
-            numbers.put(temp, startingPlaintext);
+           // numbers.put(temp, startingPlaintext);
             startingPlaintext = reduceHash(temp);
 
         }
@@ -82,7 +97,11 @@ class HashGen {
     void writeRainbowTables() throws FileNotFoundException {
 
         String data[] = tableGenerator();
-        Path path = Paths.get("testing2.txt");
+
+       // RandomAccessFile k = new RandomAccessFile("/home/nickdev/Desktop/testing2.txt","rw");
+        Path path = Paths.get("/home/nickdev/Desktop/testing2.txt");
+
+
         Charset charset = Charset.forName("UTF-8");
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
