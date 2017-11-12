@@ -17,10 +17,8 @@ class HashCracker {
 
     void readRainbowTable()  {
 
-
-        BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader("tables.txt"));
+            BufferedReader in = new BufferedReader(new FileReader("tables.txt"));
 
             String line;
             while ((line = in.readLine()) != null) {
@@ -40,9 +38,8 @@ class HashCracker {
 
         ArrayList<String> hashesFromFile = new ArrayList<>();
 
-        BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader("crackMe.txt"));
+            BufferedReader in = new BufferedReader(new FileReader("crackMe.txt"));
 
         String line;
         while ((line = in.readLine()) != null) {

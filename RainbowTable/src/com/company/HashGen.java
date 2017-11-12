@@ -15,28 +15,27 @@ import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.Hashtable;
 
-public class HashGen implements Runnable{
+public class HashGen implements Runnable {
 
-    String directory=System.getProperty("user.dir");
     private Hashtable<String, String> numbers
             = new Hashtable<>();
 
     private SecureRandom rand = new SecureRandom();
 
 
-   public void run(){
+    public void run() {
 
-       try {
-           writeRainbowTables();
-       } catch (FileNotFoundException e) {
-           e.printStackTrace();
-       }
-
-
-   }
+        try {
+            writeRainbowTables();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
-    String[] tableGenerator()  {
+    }
+
+
+    String[] tableGenerator() {
 
         int number = rand.nextInt(9999);
         String startingPlaintext = String.valueOf(number);
@@ -46,7 +45,6 @@ public class HashGen implements Runnable{
         for (int i = 0; i < 10000; i++) {
 
             temp = hashGenerator(startingPlaintext);
-           // numbers.put(temp, startingPlaintext);
             startingPlaintext = reduceHash(temp);
 
         }
@@ -54,7 +52,7 @@ public class HashGen implements Runnable{
         return startEnd;
     }
 
-    String[] tableGenerator(String startingPlaintext, String hashToCheck)  {
+    String[] tableGenerator(String startingPlaintext, String hashToCheck) {
 
         String temp = "0";
         String startEnd[] = new String[3];
@@ -95,11 +93,8 @@ public class HashGen implements Runnable{
     void writeRainbowTables() throws FileNotFoundException {
 
         String data[] = tableGenerator();
-
-       // RandomAccessFile k = new RandomAccessFile("/home/nickdev/Desktop/testing2.txt","rw");
-
         Path path = Paths.get("tables.txt");
-
+        //Could make this randomAccess to avoid sync overhead if i have enough time
 
         Charset charset = Charset.forName("UTF-8");
         try {

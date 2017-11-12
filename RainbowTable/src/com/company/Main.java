@@ -18,6 +18,10 @@ public class Main {
         CrackTrial CrTrial = new CrackTrial();
         Scanner scanner = new Scanner(System.in);
 
+        Path currentRelativePath = Paths.get("");//I have this here until i fix the issue with file management between different systems(OSX,LINUX)
+        String s = currentRelativePath.toAbsolutePath().toString();
+        System.out.println("Current relative path is: " + s);
+
         boolean flag = true;
         while (flag == true) {
             System.out.println("Press 1 to crack md5 hashes\nPress 2 to generate rainbow tables\nPress 3 to exit");
@@ -26,9 +30,7 @@ public class Main {
             switch (userChoice) {
 
                 case 1: {
-                    Path currentRelativePath = Paths.get("");
-                    String s = currentRelativePath.toAbsolutePath().toString();
-                    System.out.println("Current relative path is: " + s);
+
 
                     CrTrial.setCollisionsCounter(0);
                     CrTrial.check();
@@ -37,27 +39,24 @@ public class Main {
                 }
 
                 case 2: {
-                    Instant b = Instant.now();int threads = Runtime.getRuntime().availableProcessors();
 
+                    int threads = Runtime.getRuntime().availableProcessors();
                     ExecutorService executor = Executors.newFixedThreadPool(threads);
+
+                    Instant b = Instant.now();
                     for (int i = 0; i < 1000; i++) {
                         Runnable worker = new HashGen();
                         executor.execute(worker);
                     }
                     executor.shutdown();
 
-                    while (!executor.isTerminated()) {
-                    }
                     Instant e = Instant.now();
                     System.out.println("Finished all threads");
                     Duration timeElapsed = Duration.between(b, e);
                     System.out.println("elapsed time ( Seconds ):..."
-                            +(timeElapsed.toMillis()));
+                            + (timeElapsed.toMillis()));
 
                 }
-
-
-
                 break;
 
                 case 3: {
@@ -68,16 +67,17 @@ public class Main {
 
 
                 case 4: {//FOR PRESENTATION ONLY DONT USE IT
-                    Instant b = Instant.now();
+
                     HashGen hs = new HashGen();
+                    Instant b = Instant.now();
                     for (int i = 0; i < 1000; i++) {
 
                         hs.writeRainbowTables();
                     }
                     Instant e = Instant.now();
                     Duration timeElapsed = Duration.between(b, e);
-                    System.out.println("elapsed time ( Seconds ):..."
-                            +(timeElapsed.toMillis()));
+                    System.out.println("elapsed time ( Millseconds ):..."
+                            + (timeElapsed.toMillis()));
 
                     break;
                 }
