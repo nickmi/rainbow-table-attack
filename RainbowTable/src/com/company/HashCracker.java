@@ -15,7 +15,7 @@ class HashCracker {
 
     void readRainbowTable() throws IOException {
 
-        BufferedReader in = new BufferedReader(new FileReader("/home/nickdev/Desktop/testing2.txt"));
+        BufferedReader in = new BufferedReader(new FileReader("rainBowTables.txt"));
         String line;
         while ((line = in.readLine()) != null) {
             String parts[] = line.split("  ");

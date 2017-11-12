@@ -99,7 +99,7 @@ public class HashGen extends Thread{
         String data[] = tableGenerator();
 
        // RandomAccessFile k = new RandomAccessFile("/home/nickdev/Desktop/testing2.txt","rw");
-        Path path = Paths.get("/home/nickdev/Desktop/testing2.txt");
+        Path path = Paths.get("rainBowTables.txt");
 
 
         Charset charset = Charset.forName("UTF-8");

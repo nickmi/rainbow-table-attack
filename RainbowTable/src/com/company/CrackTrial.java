@@ -17,7 +17,6 @@ class CrackTrial {
     }
 
     private int collisionsCounter = 0;
-    private boolean successFlag = false;
 
     void check() {
 
@@ -112,7 +111,6 @@ class CrackTrial {
 
                     System.out.println("Hash found in chain: \nStart of chain: " + resultsOfChainSearch[0] + "\nEnd of chain " + resultsOfChainSearch[1] + "\n" + "Original Hash: " + tempHash + ".....Plaintext:  " + finalResults[2] + "\n");
                     ++collisionsCounter;
-                    successFlag = true;
                 }
 
             }
