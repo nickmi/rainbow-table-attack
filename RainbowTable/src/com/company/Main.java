@@ -37,20 +37,23 @@ public class Main {
                 }
 
                 case 2: {
-                    Instant b = Instant.now();
-                    ExecutorService executor = Executors.newFixedThreadPool(5);
+                    Instant b = Instant.now();int threads = Runtime.getRuntime().availableProcessors();
+
+                    ExecutorService executor = Executors.newFixedThreadPool(threads);
                     for (int i = 0; i < 1000; i++) {
                         Runnable worker = new HashGen();
                         executor.execute(worker);
                     }
                     executor.shutdown();
+
                     while (!executor.isTerminated()) {
                     }
-                    System.out.println("Finished all threads");
                     Instant e = Instant.now();
+                    System.out.println("Finished all threads");
                     Duration timeElapsed = Duration.between(b, e);
                     System.out.println("elapsed time ( Seconds ):..."
                             +(timeElapsed.toMillis()));
+
                 }
 
 

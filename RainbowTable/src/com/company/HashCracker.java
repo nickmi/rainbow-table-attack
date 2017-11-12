@@ -20,7 +20,7 @@ class HashCracker {
 
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader(directory + "/tables.txt"));
+            in = new BufferedReader(new FileReader("tables.txt"));
 
             String line;
             while ((line = in.readLine()) != null) {
@@ -30,7 +30,7 @@ class HashCracker {
             in.close();
         }
          catch (Exception e) {
-            System.out.println("File table.txt not found ");        }
+            System.out.println("File tables.txt not found ");        }
 
         System.out.println();
     }
@@ -42,7 +42,7 @@ class HashCracker {
 
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader(directory+"/crackMe.txt"));
+            in = new BufferedReader(new FileReader("crackMe.txt"));
 
         String line;
         while ((line = in.readLine()) != null) {

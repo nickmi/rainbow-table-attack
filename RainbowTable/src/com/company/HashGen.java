@@ -97,7 +97,8 @@ public class HashGen implements Runnable{
         String data[] = tableGenerator();
 
        // RandomAccessFile k = new RandomAccessFile("/home/nickdev/Desktop/testing2.txt","rw");
-        Path path = Paths.get(directory+"/tables.txt");
+
+        Path path = Paths.get("tables.txt");
 
 
         Charset charset = Charset.forName("UTF-8");
