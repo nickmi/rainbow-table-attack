@@ -15,9 +15,9 @@ import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.Hashtable;
 
-public class HashGen extends Thread{
+public class HashGen implements Runnable{
 
-
+    String directory=System.getProperty("user.dir");
     private Hashtable<String, String> numbers
             = new Hashtable<>();
 
@@ -36,9 +36,7 @@ public class HashGen extends Thread{
    }
 
 
-
-
-    String[] tableGenerator() throws FileNotFoundException {
+    String[] tableGenerator()  {
 
         int number = rand.nextInt(9999);
         String startingPlaintext = String.valueOf(number);
@@ -56,7 +54,7 @@ public class HashGen extends Thread{
         return startEnd;
     }
 
-    String[] tableGenerator(String startingPlaintext, String hashToCheck) throws FileNotFoundException {
+    String[] tableGenerator(String startingPlaintext, String hashToCheck)  {
 
         String temp = "0";
         String startEnd[] = new String[3];
@@ -99,7 +97,7 @@ public class HashGen extends Thread{
         String data[] = tableGenerator();
 
        // RandomAccessFile k = new RandomAccessFile("/home/nickdev/Desktop/testing2.txt","rw");
-        Path path = Paths.get("rainBowTables.txt");
+        Path path = Paths.get(directory+"/tables.txt");
 
 
         Charset charset = Charset.forName("UTF-8");
@@ -107,6 +105,7 @@ public class HashGen extends Thread{
             try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
                 writer.write(data[0] + "  " + data[1]);
                 writer.newLine();
+                writer.close();
 
             }
         } catch (IOException e) {

@@ -11,20 +11,19 @@ class CrackTrial {
     HashGen HsGen = new HashGen();
     private String hashToCrack;
     private ArrayList<String> hashesFromFile;
+    private int collisionsCounter = 0;
 
     {
         hashesFromFile = new ArrayList<>();
     }
 
-    private int collisionsCounter = 0;
+    public void setCollisionsCounter(int collisionsCounter) {
+        this.collisionsCounter = collisionsCounter;
+    }
 
-    void check() {
+    void check() throws IOException {
 
-        try {
-            HsCracker.readRainbowTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        HsCracker.readRainbowTable();
         System.out.println("Enter 1 to crack one hash value\nEnter 2 to crack multiple hash values from file");
 
         Scanner scanner = new Scanner(System.in);
@@ -45,21 +44,17 @@ class CrackTrial {
 
             case 2:
                 System.out.println("Loading results from crackMe.txt file");
-                try {
-                    hashesFromFile = HsCracker.readHashesToCrack();
+                hashesFromFile = HsCracker.readHashesToCrack();
 
-                    for (int j = 0; j < hashesFromFile.size(); j++) {
-                        hashToCrack = hashesFromFile.get(j);
-                        results = HsCracker.searchForHash(hashToCrack.toLowerCase());
-                        checkMultipleHashes(results);
-                        if (collisionsCounter != 0) {
+                for (int j = 0; j < hashesFromFile.size(); j++) {
+                    hashToCrack = hashesFromFile.get(j);
+                    results = HsCracker.searchForHash(hashToCrack.toLowerCase());
+                    checkMultipleHashes(results);
+                    if (collisionsCounter != 0) {
 
-                            collisionsCounter = 0;
-                        }
-
+                        collisionsCounter = 0;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+
                 }
                 break;
 
@@ -70,7 +65,6 @@ class CrackTrial {
 
         }
     }
-
 
     void checkMultipleHashes(String[] results) {
 
@@ -85,14 +79,9 @@ class CrackTrial {
             }
 
         } else {
+            System.out.println("HASH FOUND IN END OF AVAILABLE CHAINS");
 
-            try {
-               System.out.println(HsGen.tableGenerator(results[0], results[1])[2]);
-
-               // System.out.println(realResults[0] + realResults[1]);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            System.out.println("Hash: "+results[1]+".....PlainText: "+HsGen.tableGenerator(results[0], results[1])[2]);
         }
     }
 
@@ -116,6 +105,7 @@ class CrackTrial {
             }
 
             if (collisionsCounter >= 1) {
+
                 break;
             } else {
 

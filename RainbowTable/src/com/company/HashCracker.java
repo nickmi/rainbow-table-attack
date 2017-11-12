@@ -2,7 +2,8 @@ package com.company;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,32 +12,47 @@ class HashCracker {
 
     private String results[] = new String[2];
     private Map<String, String> map = new HashMap<>();
+    Path directory = Paths.get("");
+    String s = directory.toAbsolutePath().toString();
+
+    void readRainbowTable()  {
 
 
-    void readRainbowTable() throws IOException {
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader(directory + "/tables.txt"));
 
-        BufferedReader in = new BufferedReader(new FileReader("rainBowTables.txt"));
-        String line;
-        while ((line = in.readLine()) != null) {
-            String parts[] = line.split("  ");
-            map.put(parts[1], parts[0]);
+            String line;
+            while ((line = in.readLine()) != null) {
+                String parts[] = line.split("  ");
+                map.put(parts[1], parts[0]);
+            }
+            in.close();
         }
-        in.close();
+         catch (Exception e) {
+            System.out.println("File table.txt not found ");        }
+
         System.out.println();
     }
 
 
-    ArrayList readHashesToCrack() throws IOException {
+    ArrayList readHashesToCrack()  {
 
         ArrayList<String> hashesFromFile = new ArrayList<>();
 
-        BufferedReader in = new BufferedReader(new FileReader("crackMe.txt"));
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader(directory+"/crackMe.txt"));
+
         String line;
         while ((line = in.readLine()) != null) {
             String parts = line;
             hashesFromFile.add(parts);
         }
-        in.close();
+        in.close();}
+        catch (Exception e) {
+            System.out.println("File crackMe.txt not found or File is empty \n ");         }
+
         return hashesFromFile;
     }
 
