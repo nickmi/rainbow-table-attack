@@ -81,7 +81,7 @@ class CrackTrial {
         } else {
             System.out.println("HASH FOUND IN END OF AVAILABLE CHAINS");
 
-            System.out.println("Hash: "+results[1]+".....PlainText: "+HsGen.tableGenerator(results[0], results[1])[2]);
+            System.out.println("Hash: " + results[1] + ".....PlainText: " + HsGen.tableGenerator(results[0], results[1])[2] + "\n");
         }
     }
 

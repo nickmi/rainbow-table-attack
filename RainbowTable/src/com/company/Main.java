@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,11 +22,23 @@ public class Main {
         Path currentRelativePath = Paths.get("");//I have this here until i fix the issue with file management between different systems(OSX,LINUX)
         String s = currentRelativePath.toAbsolutePath().toString();
         System.out.println("Current relative path is: " + s);
-
+        int userChoice = 0;
         boolean flag = true;
         while (flag == true) {
             System.out.println("Press 1 to crack md5 hashes\nPress 2 to generate rainbow tables\nPress 3 to exit");
-            int userChoice = scanner.nextInt();
+
+            try {
+                userChoice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\n!!!PLEASE DON'T USE LETTERS");
+                scanner.next();
+            }
+
+
+
+
+
+
 
             switch (userChoice) {
 
@@ -53,7 +66,7 @@ public class Main {
                     Instant e = Instant.now();
                     System.out.println("Finished all threads");
                     Duration timeElapsed = Duration.between(b, e);
-                    System.out.println("elapsed time ( Seconds ):..."
+                    System.out.println("elapsed time ( Milliseconds ):..."
                             + (timeElapsed.toMillis()));
 
                 }
@@ -76,13 +89,15 @@ public class Main {
                     }
                     Instant e = Instant.now();
                     Duration timeElapsed = Duration.between(b, e);
-                    System.out.println("elapsed time ( Millseconds ):..."
+                    System.out.println("elapsed time ( Milliseconds ):..."
                             + (timeElapsed.toMillis()));
 
                     break;
                 }
 
                 default:
+
+                    System.out.println("Please choose only from the available options!!!\n");
 
                     break;
 
@@ -92,6 +107,12 @@ public class Main {
 
     }
 }
+
+
+
+
+
+
 
 
 
