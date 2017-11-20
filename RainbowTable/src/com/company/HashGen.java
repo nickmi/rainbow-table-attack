@@ -28,7 +28,7 @@ public class HashGen implements Runnable {
         try {
             writeRainbowTables();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found");
         }
 
 
@@ -97,6 +97,8 @@ public class HashGen implements Runnable {
         //Could make this randomAccess to avoid sync overhead if i have enough time
 
         Charset charset = Charset.forName("UTF-8");
+
+
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
                 writer.write(data[0] + "  " + data[1]);

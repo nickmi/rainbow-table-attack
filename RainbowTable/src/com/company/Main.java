@@ -62,7 +62,6 @@ public class Main {
                         executor.execute(worker);
                     }
                     executor.shutdown();
-
                     Instant e = Instant.now();
                     System.out.println("Finished all threads");
                     Duration timeElapsed = Duration.between(b, e);

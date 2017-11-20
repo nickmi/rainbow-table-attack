@@ -37,8 +37,16 @@ class CrackTrial {
                 System.out.println("Give me a MD5 hash to crack....");
                 Scanner scanner2 = new Scanner(System.in);
                 hashToCrack = scanner2.nextLine();
-                results = HsCracker.searchForHash(hashToCrack.toLowerCase());
-                checkMultipleHashes(results);
+
+                if (hashToCrack.matches("^[a-f0-9]{32}$")) {
+
+                    results = HsCracker.searchForHash(hashToCrack.toLowerCase());
+                    checkMultipleHashes(results);
+                } else {
+
+                    System.out.println("!!!Input is not a legal MD5 hash, Try again!!!\n");
+                }
+
                 break;
 
 

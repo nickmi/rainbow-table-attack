@@ -15,7 +15,7 @@ class HashCracker {
     Path directory = Paths.get("");
     String s = directory.toAbsolutePath().toString();
 
-    void readRainbowTable()  {
+    void readRainbowTable() {
 
         try {
             BufferedReader in = new BufferedReader(new FileReader("tables.txt"));
@@ -26,11 +26,11 @@ class HashCracker {
                 map.put(parts[1], parts[0]);
             }
             in.close();
+        } catch (Exception e) {
+            System.out.println("File tables.txt not found ");
+            System.out.println("Please create a tables.txt file in the folowing location " + s + "\nThen run the program again");
+            System.exit(0);
         }
-         catch (Exception e) {
-            System.out.println("File tables.txt not found ");        }
-
-        System.out.println();
     }
 
 
@@ -48,7 +48,11 @@ class HashCracker {
         }
         in.close();}
         catch (Exception e) {
-            System.out.println("File crackMe.txt not found or File is empty \n ");         }
+            System.out.println("File crackMe.txt not found or File is empty \n ");
+            System.out.println("Please create/populate a crackMe.txt file in the folowing location " + s + "\nThen run the program again");
+            System.exit(0);
+
+        }
 
         return hashesFromFile;
     }
