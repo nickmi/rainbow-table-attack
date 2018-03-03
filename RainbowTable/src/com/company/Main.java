@@ -55,18 +55,22 @@ public class Main {
 
                     int threads = Runtime.getRuntime().availableProcessors();
                     ExecutorService executor = Executors.newFixedThreadPool(threads);
-
+                    System.out.println("Generation of RainbowTables has started, please wait........................");
                     Instant b = Instant.now();
                     for (int i = 0; i < 1000; i++) {
                         Runnable worker = new HashGen();
                         executor.execute(worker);
                     }
+
                     executor.shutdown();
+
+                    while (!executor.isTerminated()) {
+                                          };
                     Instant e = Instant.now();
                     System.out.println("Finished all threads");
                     Duration timeElapsed = Duration.between(b, e);
-                    System.out.println("elapsed time ( Milliseconds ):..."
-                            + (timeElapsed.toMillis()));
+                    System.out.println("Generation completed. It took "
+                            + (timeElapsed.toMillis())/1000.0+" Seconds");
 
                 }
                 break;

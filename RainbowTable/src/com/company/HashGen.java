@@ -4,6 +4,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.hash.Hashing;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -98,6 +99,10 @@ public class HashGen implements Runnable {
 
         Charset charset = Charset.forName("UTF-8");
 
+        checkIfFileExistsElseCreateIt("tables.txt");
+
+
+
 
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path, charset, StandardOpenOption.APPEND)) {
@@ -109,6 +114,23 @@ public class HashGen implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    void checkIfFileExistsElseCreateIt(String fileName){
+
+        File f = new File(fileName);
+        if(!f.exists()) {
+            System.out.println("File tables.txt wasnt found.\n File tables.txt was created");
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
     }
 
 }
