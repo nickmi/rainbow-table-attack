@@ -1,6 +1,5 @@
 # Rainbow-Table-Attack
 
-I chose to do this project for my cs class "Network and computer security".
 The project is the implementation of the famous rainbow attack method.
 Currently it is designed to generate rainbow tables for md5 4 digits numerical passwords and obviously
 crack md5 hashes that are generated from 4 digits numerical input.
